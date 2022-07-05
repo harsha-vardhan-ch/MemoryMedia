@@ -1,10 +1,8 @@
 import Express from "express";
-
+import { getPosts } from "../controllers/postController.js";
 const router_var = Express.Router();
 
-router_var.get('/', (req, res) => {                  //      localhost:3000/ => redirects here 
-    res.send("working bro");
-})
+router_var.get('/', getPosts )
 
 router_var.get('/', );
 export default router_var;
