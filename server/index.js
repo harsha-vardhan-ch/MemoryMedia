@@ -25,6 +25,7 @@ app.use("/posts", postRoutes); // localhost:3000/ => redirects here, but by this
 // We write /edit, /delete, /view in posts.js file. But in url it is accessed through /posts/edit, /posts/delete, /posts/view etc
 
 // const PORT = process.env.PORT || 5000; // Heroku will auto populate from environment variables when deployed.
+console.log("Before Mongoose   :  "+process.env.CONNECTION_URL+"   port is :  "+process.env.PORT);
 
 mongoose
 	.connect(process.env.CONNECTION_URL, {
@@ -32,6 +33,6 @@ mongoose
 		useUnifiedTopology: true,
 	})
 	.then(() => app.listen(process.env.PORT, () => console.log("Running Successful "))) // If connection successful, then
-	.catch((error) => console.log(error.message)); // If connection Failed, then
+	.catch((error) => console.log(error)); // If connection Failed, then
 
 // mongoose.set('useFindAndModify', false);   // Ensures there will be no warnings in console
