@@ -1,0 +1,5 @@
+
+/* Add media query for small screens */
+.mainContainer{
+    flex-direction: column-reverse;
+}

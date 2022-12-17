@@ -1,0 +1,19 @@
+
+.root {
+    margin: 5px;
+}
+.paper {
+    padding: 10px;
+}
+.formcss{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.fileinput{
+    width: 97%;
+    margin: 10px 0;
+}
+.buttonsubmit{
+    margin-bottom: 10px;
+}
