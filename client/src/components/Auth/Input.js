@@ -25,19 +25,21 @@ const Input = ({
 			autoFocus={autoFocus}
 			type={type}
 			InputProps={
-				name === "password" && {
-					endAdorment: (
-						<InputAdornment position="end">
-							<IconButton onClick={handleShowPassword}>
-								{type === "password" ? (
-									<VisibilityIcon />
-								) : (
-									<VisibilityOffIcon />
-								)}
-							</IconButton>
-						</InputAdornment>
-					),
-				}
+				name === "password"
+					? {
+							endAdorment: (
+								<InputAdornment position="end">
+									<IconButton onClick={handleShowPassword}>
+										{type === "password" ? (
+											<VisibilityIcon />
+										) : (
+											<VisibilityOffIcon />
+										)}
+									</IconButton>
+								</InputAdornment>
+							),
+					  }
+					: null
 			}
 		/>
 	</Grid>

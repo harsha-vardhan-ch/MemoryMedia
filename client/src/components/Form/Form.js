@@ -22,7 +22,7 @@ const Form = ({ currentId, setCurrentId }) => {
 		if (post) {
 			setPostData(post);
 		}
-	}, [post]);
+	}, [post]);		// [ post ] => useeffect shoulb be triggered whenever post is updated. 
 	const dispatch = useDispatch(); // Allows to dispatch actions
 
 	const handleSubmit = async (e) => {

@@ -33,7 +33,7 @@ export const createPosts = (req, res) => {
 	} catch (err) {
 		res.status(409).json({ message: err.message });
 	}
-	// res.send("Post creation bro ");
+	// res.send("Post creation bro endukayya");
 };
 
 export const updatePosts = async (req, res) => {
