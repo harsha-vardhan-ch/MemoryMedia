@@ -56,6 +56,7 @@ const Auth = () => {
 			<Paper className="paper" elevation={3}>
 				<Avatar>
 					<LockIcon />
+					<h1>Hello</h1>
 				</Avatar>
 				<Typography variant="h5">
 					{isSignUp ? "Sign Up" : "Sign In"}
@@ -92,14 +93,14 @@ const Auth = () => {
 							type={showPassword ? "text" : "password"}
 							handleShowPassword={handleShowPassword}
 						/>
-						{isSignUp && (
+						{isSignUp && 
 							<Input
 								name="confirm Password"
 								label="Repeat Password"
 								handleChange={handleChange}
 								type="password"
 							/>
-						)}
+						}
 					</Grid>
 					<Button
 						type="submit"
@@ -111,19 +112,19 @@ const Auth = () => {
 					>
 						{isSignUp ? "Sign Up" : "Sign In"}
 					</Button>
-					<div id="googleDiv">
+					{/* <div id="googleDiv"> */}
 						{/* {user && 
 							<div>
 								<img src={user?.picture}></img>
 								<h3>{user?.name}</h3>
 							</div>
 						} */}
-					</div>
+					{/* </div> */}
 					<GoogleLogin
 						onSuccess={googleSuccess}
 						onError={googleFailure}
+						cookiePolicy="single_host_origin"
 						text="Sign in With google"
-						// cookiePolicy="single_host_origin"
 					/>
 					<Grid container justify="flex-end">
 						<Grid item>
@@ -135,7 +136,7 @@ const Auth = () => {
 						</Grid>
 					</Grid>
 				</form>
-			</Paper>
+			</Paper> 
 		</Container>
 	);
 };

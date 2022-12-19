@@ -9,13 +9,16 @@ import Home from "./components/Home/Home";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Auth from "./components/Auth/Auth";
 import PostDetails from "./components/PostDetails/PostDetails";
+import dotenv from "dotenv";
 import { GoogleOAuthProvider } from '@react-oauth/google';
 
+// dotenv.config();
+
 const App = () => {
-	// const classes = useStyles();
 	const user = JSON.parse(localStorage.getItem("profile"));
+	const GOOGLE_API_TOKEN = '246604659762-q51tb9afo1mvslgnkisdh5m908o47tve.apps.googleusercontent.com';
 	return (
-		<GoogleOAuthProvider clientId={process.env.GOOGLE_API_TOKEN}>
+		<GoogleOAuthProvider clientId={GOOGLE_API_TOKEN}>
 		<BrowserRouter>
 			<Container maxWidth="xl">
 				<Navbar />
@@ -35,7 +38,8 @@ const App = () => {
 							!user ? <Auth /> : <Navigate to="/posts" />
 						}
 					/> */}
-					<Route path="/auth" exact element={() => (!user ? <Auth /> : <Navigate to="/posts" />)} />
+					<Route path="/auth" exact element={<Auth />} />
+					{/* <Route path="/auth" exact element={() => (!user ? <Auth /> : <Navigate to="/posts" />)} /> */}
 				</Routes>
 			</Container>
 		</BrowserRouter>

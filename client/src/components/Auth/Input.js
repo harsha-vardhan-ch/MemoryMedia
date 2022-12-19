@@ -14,7 +14,7 @@ const Input = ({
 	type,
 	handleShowPassword,
 }) => (
-	<Grid Item xs={12} sm={half ? 6 : 12}>
+	<Grid item xs={12} sm={half ? 6 : 12}>
 		<TextField
 			name={name}
 			onChange={handleChange}
@@ -27,7 +27,7 @@ const Input = ({
 			InputProps={
 				name === "password"
 					? {
-							endAdorment: (
+							endAdornment: (
 								<InputAdornment position="end">
 									<IconButton onClick={handleShowPassword}>
 										{type === "password" ? (
