@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
 	Avatar,
 	Grid,
@@ -12,16 +12,18 @@ import "./AuthStyles.css";
 import LockIcon from "@mui/icons-material/Lock";
 
 import Input from "./Input.js";
-import jwt_decode from "jwt-decode";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import { GoogleLogin } from "@react-oauth/google";
+import jwt_decode from "jwt-decode";
+import { useNavigate } from "react-router-dom";
 
 const Auth = () => {
 	const [showPassword, setShowPassword] = useState(false);
 	const [isSignUp, setIsSignUp] = useState(false);
 
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
 
 	const handleShowPassword = () =>
 		setShowPassword((prevShowPassword) => !prevShowPassword);
@@ -38,10 +40,11 @@ const Auth = () => {
 	const googleSuccess = async (res) => {
 		try {
 			// console.log(res); // Prints JWT Token along with google client ID
+			const token = res['credential'];
 			const result = jwt_decode(res['credential']);    // Decoding JWT Token
-			// console.log(result,result['email']);
-			// dispatch({ type: 'AUTH', data: { result, token } });
-			// history.push("/");
+			console.log(result,result['email']);
+			dispatch({ type: 'AUTH', data: { result, token } });
+			navigate("/");      // After dispatching, redirecting to / page
 		} catch (error) {
 			console.log(error);
 		}
