@@ -44,7 +44,7 @@ const Auth = () => {
 			const result = jwt_decode(res['credential']);    // Decoding JWT Token
 			console.log(result,result['email']);
 			dispatch({ type: 'AUTH', data: { result, token } });
-			navigate("/");      // After dispatching, redirecting to / page
+			navigate("/posts");      // After dispatching, redirecting to / page
 		} catch (error) {
 			console.log(error);
 		}
