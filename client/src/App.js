@@ -13,10 +13,12 @@ import dotenv from "dotenv";
 import { GoogleOAuthProvider } from '@react-oauth/google';
 
 // dotenv.config();
+// require('dotenv').config();
 
 const App = () => {
 	const user = JSON.parse(localStorage.getItem("profile"));
 	const GOOGLE_API_TOKEN = '246604659762-q51tb9afo1mvslgnkisdh5m908o47tve.apps.googleusercontent.com';
+	// console.log(process.env.GOOGLE_API_TOKEN);
 	return (
 		<GoogleOAuthProvider clientId={GOOGLE_API_TOKEN}>
 		<BrowserRouter>

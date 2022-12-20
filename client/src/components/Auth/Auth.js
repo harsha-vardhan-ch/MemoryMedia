@@ -36,10 +36,10 @@ const Auth = () => {
 	};
 
 	const googleSuccess = async (res) => {
-		const result = res?.profileObj;
-		const token = res?.tokenId;
 		try {
-			console.log(res);
+			// console.log(res); // Prints JWT Token along with google client ID
+			const result = jwt_decode(res['credential']);    // Decoding JWT Token
+			// console.log(result,result['email']);
 			// dispatch({ type: 'AUTH', data: { result, token } });
 			// history.push("/");
 		} catch (error) {
@@ -123,7 +123,7 @@ const Auth = () => {
 					<GoogleLogin
 						onSuccess={googleSuccess}
 						onError={googleFailure}
-						cookiePolicy="single_host_origin"
+						// cookiePolicy="single_host_origin"
 						text="Sign in With google"
 					/>
 					<Grid container justify="flex-end">
