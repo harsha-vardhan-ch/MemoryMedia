@@ -1,10 +1,10 @@
 import mongoose from "mongoose";
 import UserMessage from "../models/userMessage.js";
 
-import bcrypt from "bcryptjs";
+import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
-export const signin = async (req, res) => {
+export const signIn = async (req, res) => {
 	const [email, password] = await req.body();
 	try {
 		const existingUser = await User.findOne({ email });
@@ -38,7 +38,7 @@ export const signin = async (req, res) => {
 	}
 };
 
-export const signup = async (req, res) => {
+export const signUp = async (req, res) => {
     const { email, password, confirmPassword, firstName, lastName } = req.body;
 
 	try {
