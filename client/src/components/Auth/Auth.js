@@ -17,6 +17,17 @@ import { useDispatch } from "react-redux";
 import { GoogleLogin } from "@react-oauth/google";
 import jwt_decode from "jwt-decode";
 import { useNavigate } from "react-router-dom";
+import { signup, signin } from '../../actions/authActions';
+
+const initialState = {
+	firstName: '',
+	lastName: '',
+	email: '',
+	password: '',
+	confirmPassword: ''
+}
+
+
 
 const Auth = () => {
 	const [showPassword, setShowPassword] = useState(false);
@@ -24,17 +35,32 @@ const Auth = () => {
 
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
+	const [ formData, setformData ] = useState(initialState);
 
 	const handleShowPassword = () =>
 		setShowPassword((prevShowPassword) => !prevShowPassword);
 
-	const handleSubmit = () => {};
+	const handleSubmit = (e) => {
+		e.preventDefault();     // To stop, browser default behaviour of page reloading after form submitting.
+		console.log(formData);
 
-	const handleChange = () => {};
+		if(isSignUp)
+		{
+			console.log("In user registration");
+			dispatch(signup(formData, navigate));		//For new users registration
+		}
+		else{
+			dispatch(signin(formData, navigate));		// For exisiting users signin
+		}
+	};
+
+	const handleChange = (e) => {
+		setformData({ ...formData, [e.target.name]: e.target.value });
+	};
 
 	const switchMode = () => {
 		setIsSignUp((prevIsSignUp) => !prevIsSignUp);
-		handleShowPassword(false);
+		setShowPassword(false);
 	};
 
 	const googleSuccess = async (res) => {
@@ -98,7 +124,7 @@ const Auth = () => {
 						/>
 						{isSignUp && 
 							<Input
-								name="confirm Password"
+								name="confirmPassword"
 								label="Repeat Password"
 								handleChange={handleChange}
 								type="password"
@@ -115,14 +141,6 @@ const Auth = () => {
 					>
 						{isSignUp ? "Sign Up" : "Sign In"}
 					</Button>
-					{/* <div id="googleDiv"> */}
-						{/* {user && 
-							<div>
-								<img src={user?.picture}></img>
-								<h3>{user?.name}</h3>
-							</div>
-						} */}
-					{/* </div> */}
 					<GoogleLogin
 						onSuccess={googleSuccess}
 						onError={googleFailure}
