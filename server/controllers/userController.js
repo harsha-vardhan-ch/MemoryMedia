@@ -6,10 +6,11 @@ import jwt from "jsonwebtoken";
 
 export const signIn = async (req, res) => {
 	// console.log(req.body);
-	const [email, password] = await req.body;
+	// const [email, password] = await req.body;
+	const { firstName, lastName, email, password, confirmPassword } = req.body;
 	try {
 		const existingUser = await UserMessage.findOne({ email });
-
+		// console.log(existingUser);
 		// if user does not exist
 		if (!existingUser) {
 			res.status(404).json({ message: "User doesn't exist." });

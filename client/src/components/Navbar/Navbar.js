@@ -4,6 +4,7 @@ import { Typography, AppBar, Toolbar, Button, Avatar } from "@mui/material";
 import memories from "../../images/memories.png";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import decode from "jwt-decode";
 
 const Navbar = () => {
 	const [user, setUser] = useState(
@@ -15,19 +16,28 @@ const Navbar = () => {
 	const navigate = useNavigate();
 	const location = useLocation();
 
-	useEffect(() => {
-		const token = user?.token;
-
-		//JWT For manual signups
-
-		setUser(JSON.parse(localStorage.getItem("profile")));
-	}, [location]);			// When location changes refresh => location change => redirecting from /auth to / page.
-
 	const logout = () => {
 		dispatch({ type: "LOGOUT" });
 		navigate('/');
 		setUser(null);
 	};
+
+	useEffect(() => {
+		const token = user?.token;
+
+		// logout user if token expired.
+		if(token)
+		{
+			const decodedToken = decode(token);
+			if(decodedToken.exp * 1000 < new Date().getTime())
+			{
+				logout();
+			}
+		}
+
+		setUser(JSON.parse(localStorage.getItem("profile")));
+	}, [location]);			// refresh on location change => location change happens when => redirecting from /auth to / page.
+
 	return (
 		<AppBar className="appBar" position="static" color="inherit">
 			<div className="brandContainer">
