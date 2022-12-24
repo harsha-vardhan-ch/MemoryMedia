@@ -5,9 +5,10 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
 export const signIn = async (req, res) => {
-	const [email, password] = await req.body();
+	// console.log(req.body);
+	const [email, password] = await req.body;
 	try {
-		const existingUser = await User.findOne({ email });
+		const existingUser = await UserMessage.findOne({ email });
 
 		// if user does not exist
 		if (!existingUser) {
@@ -39,10 +40,11 @@ export const signIn = async (req, res) => {
 };
 
 export const signUp = async (req, res) => {
-    const { email, password, confirmPassword, firstName, lastName } = req.body;
+	console.log(req.body);
+    const { firstName, lastName, email, password, confirmPassword } = req.body;
 
 	try {
-        const existingUser = await User.findOne({ email });
+        const existingUser = await UserMessage.findOne({ email });
 
 		// if user exists already
 		if (existingUser) {
@@ -57,7 +59,7 @@ export const signUp = async (req, res) => {
 
         const hashedPassword = await bcrypt.hash(password, 12);
 
-        const newUser = await User.create({ email, password: hashedPassword, name: `${firstName} ${lastName}`});
+        const newUser = await UserMessage.create({ email, password: hashedPassword, name: `${firstName} ${lastName}`});
 
         // Token after creating user in DB
         const token = jwt.sign(
@@ -69,6 +71,7 @@ export const signUp = async (req, res) => {
 
 		res.status(200).json({ result: newUser, token });
 	} catch (err) {
+		console.log("Reached Error");
 		res.status(500).json({ message: "Something went wrong" });
 	}
 };
