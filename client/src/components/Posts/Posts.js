@@ -8,8 +8,6 @@ import { Grid, CircularProgress } from "@mui/material";
 
 const Posts = ({setCurrentId}) => {
 	const posts = useSelector((state) => state.posts);		// fetching posts
-	console.log(posts);
-	console.log("In Posts.js file ");
 	return !posts.length ? (							 // Display circular progress symbol if no posts. 
 		<CircularProgress />
 	) : (

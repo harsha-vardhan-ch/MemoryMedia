@@ -25,8 +25,9 @@ export const getPost = async (req, res) => {
 
 export const createPosts = async (req, res) => {
 	const post = req.body;
-
-	const newPost = new PostMessage({ ...post, creator: req.userId, createdAt: new Date().toISOString() });
+	console.log("In controller",req.body);
+	console.log(req.name);
+	const newPost = new PostMessage({ ...post, creator: post.name, createdAt: new Date().toISOString() });
 	try {
 		await newPost.save();
 		res.status(201).json(newPost);

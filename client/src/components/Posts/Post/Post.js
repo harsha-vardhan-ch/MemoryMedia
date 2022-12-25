@@ -41,7 +41,6 @@ const Post = ({ post, setCurrentId }) => {
 
 	// Likes component
 	const Likes = () => {
-		console.log("Likes component");
 		if (likes.length > 0) {
 			return likes.find((like) => like === userId)
 			  ? (
@@ -115,8 +114,8 @@ const Post = ({ post, setCurrentId }) => {
 				>
 					<Likes />
 				</Button>
-				{(user?.result?.googleId === post?.creator ||
-					user?.result?._id === post?.creator) && (
+				
+				{(user?.result?.googleId === post?.creator || user?.result?._id === post?.creator) && (
 					<Button
 						size="small"
 						color="primary"
