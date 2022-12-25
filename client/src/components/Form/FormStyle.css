@@ -2,9 +2,10 @@
 .root {
     margin: 5px;
 }
-.paper {
+.paperstyle{
     padding: 10px;
-}
+    border-radius: 15px,
+}    
 .formcss{
     display: flex;
     flex-wrap: wrap;

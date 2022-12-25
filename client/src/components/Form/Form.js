@@ -8,7 +8,6 @@ import { createPost, updatePost } from "../../actions/posts";
 
 const Form = ({ currentId, setCurrentId }) => {
 	const [postData, setPostData] = useState({
-		creator: "",
 		title: "",
 		message: "",
 		tags: "",
@@ -17,12 +16,13 @@ const Form = ({ currentId, setCurrentId }) => {
 	const post = useSelector((state) =>
 		currentId ? state.posts.find((p) => p._id === currentId) : null
 	); // fetching posts
+	const user = JSON.parse(localStorage.getItem("profile"));
 
 	useEffect(() => {
 		if (post) {
 			setPostData(post);
 		}
-	}, [post]);		// [ post ] => useeffect shoulb be triggered whenever post is updated. 
+	}, [post]); // [ post ] => useeffect shoulb be triggered whenever post is updated.
 	const dispatch = useDispatch(); // Allows to dispatch actions
 
 	const handleSubmit = async (e) => {
@@ -31,16 +31,28 @@ const Form = ({ currentId, setCurrentId }) => {
 		console.log(postData);
 
 		if (currentId) {
-			dispatch(updatePost(currentId, postData));
+			dispatch(
+				updatePost(currentId, { ...postData, name: user?.result?.name })
+			);
 		} else {
-			dispatch(createPost(postData)); // send the dispatch request with user entered data
+			dispatch(createPost({ ...postData, name: user?.result?.name })); // send the dispatch request with user entered data
 		}
 		clear();
 	};
+
+	if (!user?.result?.name) {
+		return (
+			<Paper className="paperstyle" elevation={6}>
+				<Typography variant="h6" align="center">
+					Sign In to create and like posts!
+				</Typography>
+			</Paper>
+		);
+	}
+
 	const clear = () => {
 		setCurrentId(null);
 		setPostData({
-			creator: "",
 			title: "",
 			message: "",
 			tags: "",
@@ -49,7 +61,7 @@ const Form = ({ currentId, setCurrentId }) => {
 	};
 
 	return (
-		<Paper className="paper">
+		<Paper className="paperstyle">
 			<form
 				className="root formcss"
 				onSubmit={handleSubmit}
@@ -60,7 +72,7 @@ const Form = ({ currentId, setCurrentId }) => {
 					{" "}
 					{currentId ? "Edit" : "Create"} Memory{" "}
 				</Typography>
-				<TextField
+				{/* <TextField
 					name="creator"
 					variant="outlined"
 					label="Creator"
@@ -69,7 +81,7 @@ const Form = ({ currentId, setCurrentId }) => {
 						setPostData({ ...postData, creator: e.target.value }); // Only last value mentioned changes. Remaining are retrieved
 					}}
 					fullwidth="true"
-				/>
+				/> */}
 				<TextField
 					name="title"
 					variant="outlined"
@@ -96,7 +108,10 @@ const Form = ({ currentId, setCurrentId }) => {
 					label="Tags"
 					value={postData.tags}
 					onChange={(e) => {
-						setPostData({ ...postData, tags: e.target.value.split(',') }); // Only last value mentioned changes. Remaining are retrieved
+						setPostData({
+							...postData,
+							tags: e.target.value.split(","),
+						}); // Only last value mentioned changes. Remaining are retrieved
 					}}
 					fullwidth="true"
 				/>

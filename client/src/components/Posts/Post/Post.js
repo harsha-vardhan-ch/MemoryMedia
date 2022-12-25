@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./PostStyle.css";
 
 import {
@@ -10,7 +10,8 @@ import {
 	Typography,
 	ButtonBase,
 } from "@mui/material";
-import ThumbUpIcon from "@mui/icons-material/ThumbUp";
+import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
+import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import DeleteIcon from "@mui/icons-material/Delete";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import ExpandCircleDownIcon from "@mui/icons-material/ExpandCircleDown";
@@ -18,11 +19,40 @@ import { useDispatch } from "react-redux";
 
 import { deletePost, likePost } from "../../../actions/posts";
 import { useNavigate } from "react-router-dom";
+import moment from "moment";
 
 const Post = ({ post, setCurrentId }) => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
+	const user = JSON.parse(localStorage.getItem("profile"));
+	const [likes, setLikes] = useState(post?.likes);
+	const hasLikedPost = post.likes.find((like) => like === userId);
+	const userId = user?.result.googleId || user?.result?._id;
 
+	const handleLike = async () => {
+		dispatch(likePost(post._id));
+	
+		if (hasLikedPost) {
+		  setLikes(post.likes.filter((id) => id !== userId));
+		} else {
+		  setLikes([...post.likes, userId]);
+		}
+	  };
+
+	// Likes component
+	const Likes = () => {
+		console.log("Likes component");
+		if (likes.length > 0) {
+			return likes.find((like) => like === userId)
+			  ? (
+				<><ThumbUpAltIcon fontSize="small" />&nbsp;{likes.length > 2 ? `You and ${likes.length - 1} others` : `${likes.length} like${likes.length > 1 ? 's' : ''}` }</>
+			  ) : (
+				<><ThumbUpOffAltIcon fontSize="small" />&nbsp;{likes.length} {likes.length === 1 ? 'Like' : 'Likes'}</>
+			  );
+		  }
+	  
+		  return <><ThumbUpOffAltIcon fontSize="small" />&nbsp;Like</>;
+	};
 	const openPost = () => {
 		navigate(`/posts/${post._id}`);
 	};
@@ -38,20 +68,23 @@ const Post = ({ post, setCurrentId }) => {
 					title={post.title}
 				/>
 				<div className="overlay">
-					<Typography variant="h6">{post.creator}</Typography>
-					{/* <Typography variant="body2">
-					{moment(post.createdAt).fromNow()}
-				</Typography> */}
+					<Typography variant="h6">{post.name}</Typography>
+					<Typography variant="body2">
+						{moment(post.createdAt).fromNow()}
+					</Typography>
 				</div>
-				<div className="overlay2">
-					<Button
-						style={{ color: "white" }}
-						size="small"
-						onClick={() => setCurrentId(post._id)}
-					>
-						<MoreHorizIcon fontSize="default" />
-					</Button>
-				</div>
+				{(user?.result?.googleId === post?.creator ||
+					user?.result?._id === post?.creator) && (
+					<div className="overlay2">
+						<Button
+							style={{ color: "black" }}
+							size="small"
+							onClick={() => setCurrentId(post._id)}
+						>
+							<MoreHorizIcon fontSize="large" />
+						</Button>
+					</div>
+				)}
 				{/* <div className={classes.details}>
           <Typography variant="body2" color="textSecondary" component="h2">{post.tags.map((tag) => `#${tag} `)}</Typography>
         </div> */}
@@ -77,18 +110,21 @@ const Post = ({ post, setCurrentId }) => {
 				<Button
 					size="small"
 					color="primary"
-					onClick={() => dispatch(likePost(post._id))}
+					onClick={handleLike}
+					disabled={!user?.result}
 				>
-					<ThumbUpIcon fontSize="small" /> &nbsp; Like &nbsp;{" "}
-					{post.likeCount}{" "}
+					<Likes />
 				</Button>
-				<Button
-					size="small"
-					color="primary"
-					onClick={() => dispatch(deletePost(post._id))}
-				>
-					<DeleteIcon fontSize="small" /> &nbsp; Delete
-				</Button>
+				{(user?.result?.googleId === post?.creator ||
+					user?.result?._id === post?.creator) && (
+					<Button
+						size="small"
+						color="primary"
+						onClick={() => dispatch(deletePost(post._id))}
+					>
+						<DeleteIcon fontSize="small" /> &nbsp; Delete
+					</Button>
+				)}
 			</CardActions>
 		</Card>
 	);
