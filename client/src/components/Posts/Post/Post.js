@@ -41,6 +41,7 @@ const Post = ({ post, setCurrentId }) => {
 
 	// Likes component
 	const Likes = () => {
+		// console.log(user?.result?._id,post?.creator);
 		if (likes.length > 0) {
 			return likes.find((like) => like === userId)
 			  ? (
@@ -73,7 +74,7 @@ const Post = ({ post, setCurrentId }) => {
 					</Typography>
 				</div>
 				{(user?.result?.googleId === post?.creator ||
-					user?.result?._id === post?.creator) && (
+					user?.result?.email === post?.creator) && (
 					<div className="overlay2">
 						<Button
 							style={{ color: "black" }}
@@ -115,7 +116,7 @@ const Post = ({ post, setCurrentId }) => {
 					<Likes />
 				</Button>
 				
-				{(user?.result?.googleId === post?.creator || user?.result?._id === post?.creator) && (
+				{(user?.result?.googleId === post?.creator || user?.result?.email === post?.creator) && (
 					<Button
 						size="small"
 						color="primary"

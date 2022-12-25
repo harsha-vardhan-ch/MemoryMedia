@@ -25,8 +25,8 @@ export const getPost = async (req, res) => {
 
 export const createPosts = async (req, res) => {
 	const post = req.body;
-	console.log("In controller",req.body);
-	console.log(req.name);
+	// console.log("In controller",req.body);
+	// console.log(req.name,post.name); sending email as name for creator
 	const newPost = new PostMessage({ ...post, creator: post.name, createdAt: new Date().toISOString() });
 	try {
 		await newPost.save();

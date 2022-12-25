@@ -32,10 +32,10 @@ const Form = ({ currentId, setCurrentId }) => {
 
 		if (currentId) {
 			dispatch(
-				updatePost(currentId, { ...postData, name: user?.result?.name })
+				updatePost(currentId, { ...postData, name: user?.result?.email })
 			);
 		} else {
-			dispatch(createPost({ ...postData, name: user?.result?.name })); // send the dispatch request with user entered data
+			dispatch(createPost({ ...postData, name: user?.result?.email })); // send the dispatch request with user entered data
 		}
 		clear();
 	};
